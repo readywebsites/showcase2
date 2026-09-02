@@ -101,10 +101,6 @@
       position: relative;
       min-height: 100vh;
       background-color: #ebe5de;
-      background-image: url('hero-bg.png'), url('showcase-1.png');
-      background-position: center center;
-      background-size: cover;
-      background-repeat: no-repeat;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -112,10 +108,51 @@
       overflow: hidden;
     }
 
+    /* HERO FULL-WIDTH BACKGROUND IMAGE & TRANSLUCENT FROSTED BLUR OVERLAY */
+    .hero-bg-frame,
+    .hero-bg-shape,
+    .hero-img-wrap {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+      display: block;
+    }
+
+    .hero-bg-img,
+    .hero-bg-frame img,
+    .hero-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.8s ease;
+    }
+
+    /* TRANSLUCENT SHEER LIGHT OVERLAY (Crisp, sharp image with clear text legibility) */
+    .hero-blur-overlay,
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(
+        90deg,
+        rgba(247, 245, 240, 0.78) 0%,
+        rgba(247, 245, 240, 0.50) 35%,
+        rgba(247, 245, 240, 0.15) 62%,
+        transparent 82%
+      );
+    }
+
     /* TOP NAVIGATION */
     .norda-nav {
       position: relative;
-      z-index: 40;
+      z-index: 20;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -589,8 +626,16 @@
 
     @media (max-width: 768px) {
       .norda-hero {
-        background-position: 75% center;
         min-height: 100svh;
+      }
+      .hero-blur-overlay,
+      .hero-overlay {
+        background: linear-gradient(
+          180deg,
+          rgba(247, 245, 240, 0.82) 0%,
+          rgba(247, 245, 240, 0.60) 55%,
+          rgba(247, 245, 240, 0.20) 100%
+        );
       }
       .norda-nav {
         padding: 24px 20px 12px;
@@ -620,8 +665,16 @@
   </style>
 </head>
 <body>
-  <!-- NORDA HERO SECTION (Pixel-Perfect Match to showcase-1.png) -->
+  <!-- NORDA HERO SECTION (Full-Width Banner with Translucent Frosted Blur Overlay) -->
   <header class="norda-hero" id="home">
+    <!-- DYNAMIC BACKGROUND IMAGE IN SPAN TAG (Full Width & Height) -->
+    <span class="hero-bg-frame" data-editable="image">
+      <img src="hero-bg.png" alt="NORDA Architecture &amp; Living Spaces" class="hero-bg-img" data-editable="hero_image">
+    </span>
+
+    <!-- TRANSLUCENT FROSTED BLUR OVERLAY (Shows banner image clearly while keeping text crisp) -->
+    <div class="hero-blur-overlay" aria-hidden="true"></div>
+
     <!-- TOP NAVIGATION -->
     <nav class="norda-nav">
       <a href="#home" class="norda-brand">
